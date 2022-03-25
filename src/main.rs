@@ -146,7 +146,10 @@ where
 }
 
 // 闭包作为参数，并且异步调用
-fn parameter_is_callback_thread(callback: Box<dyn FnOnce() -> () + Send>) {
+fn parameter_is_callback_thread<T>(callback: Box<T>)
+where
+    T: FnOnce() -> () + Send + 'static,
+{
     println!("parameter_is_callback_thread start");
     thread::spawn(move || {
         println!("parameter_is_callback_thread thread start");
